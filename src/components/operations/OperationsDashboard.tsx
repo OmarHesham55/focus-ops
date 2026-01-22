@@ -84,10 +84,10 @@ export function OperationsDashboard() {
   const handleSaveTask = (taskData: Omit<Task, 'id' | 'createdAt'>) => {
     if (selectedTask) {
       updateTask(selectedTask.id, taskData);
-      addToast('success', 'تم تحديث المهمة بنجاح');
+      addToast('success', 'Task updated successfully');
     } else {
       createTask(taskData);
-      addToast('success', 'تم إنشاء المهمة بنجاح');
+      addToast('success', 'Task created successfully');
     }
     setShowFormModal(false);
     setSelectedTask(null);
@@ -96,7 +96,7 @@ export function OperationsDashboard() {
   const handleConfirmDelete = () => {
     if (selectedTask) {
       deleteTask(selectedTask.id);
-      addToast('success', 'تم حذف المهمة بنجاح');
+      addToast('success', 'Task deleted successfully');
     }
     setShowDeleteModal(false);
     setSelectedTask(null);
@@ -107,7 +107,7 @@ export function OperationsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background" dir="rtl">
+    <div className="min-h-screen bg-background">
       <TopBar
         searchValue={filters.search}
         onSearchChange={(value) => updateFilter('search', value)}

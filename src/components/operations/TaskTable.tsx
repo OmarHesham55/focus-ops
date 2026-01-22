@@ -32,27 +32,6 @@ const departmentStyles: Record<string, string> = {
   'Customer Service': 'border-department-customer-service/40 text-department-customer-service'
 };
 
-const statusLabels: Record<string, string> = {
-  'Backlog': 'انتظار',
-  'In Progress': 'تنفيذ',
-  'Blocked': 'متوقف',
-  'Done': 'مكتمل'
-};
-
-const priorityLabels: Record<string, string> = {
-  'Low': 'منخفض',
-  'Medium': 'متوسط',
-  'High': 'عالي',
-  'Critical': 'حرج'
-};
-
-const departmentLabels: Record<string, string> = {
-  'Warehouse': 'المستودع',
-  'Fleet': 'الأسطول',
-  'Procurement': 'المشتريات',
-  'Customer Service': 'العملاء'
-};
-
 function SortIcon({ field, currentField, direction }: { field: SortField; currentField: SortField; direction: SortDirection }) {
   if (field !== currentField) return <ArrowUpDown className="h-3.5 w-3.5 opacity-50" />;
   return direction === 'asc' ? <ArrowUp className="h-3.5 w-3.5" /> : <ArrowDown className="h-3.5 w-3.5" />;
@@ -63,8 +42,8 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
     return (
       <div className="flex-1 flex flex-col items-center justify-center py-16 bg-card rounded-xl border border-border">
         <FileText className="h-12 w-12 text-muted-foreground/50 mb-4" />
-        <p className="text-lg font-medium text-foreground mb-1">لا توجد مهام</p>
-        <p className="text-sm text-muted-foreground">جرب تغيير الفلاتر أو إضافة مهمة جديدة</p>
+        <p className="text-lg font-medium text-foreground mb-1">No tasks found</p>
+        <p className="text-sm text-muted-foreground">Try changing filters or add a new task</p>
       </div>
     );
   }
@@ -75,28 +54,28 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
         <table className="w-full min-w-[900px]">
           <thead>
             <tr className="border-b border-border bg-muted/30">
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">المعرف</th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">العنوان</th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">المسؤول</th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">القسم</th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">ID</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Title</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Assignee</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Department</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 <button onClick={() => onToggleSort('priority')} className="flex items-center gap-1 hover:text-foreground transition-colors">
-                  الأولوية
+                  Priority
                   <SortIcon field="priority" currentField={sortField} direction={sortDirection} />
                 </button>
               </th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">الحالة</th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Status</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 <button onClick={() => onToggleSort('dueDate')} className="flex items-center gap-1 hover:text-foreground transition-colors">
-                  تاريخ الاستحقاق
+                  Due Date
                   <SortIcon field="dueDate" currentField={sortField} direction={sortDirection} />
                 </button>
               </th>
-              <th className="py-3 px-4 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">الوسوم</th>
+              <th className="py-3 px-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Tags</th>
               <th className="py-3 px-4 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 <Paperclip className="h-3.5 w-3.5 inline" />
               </th>
-              <th className="py-3 px-4 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">إجراءات</th>
+              <th className="py-3 px-4 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +85,7 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
                 className={`border-b border-border/50 hover:bg-muted/40 transition-colors ${index % 2 === 0 ? '' : 'bg-muted/20'}`}
               >
                 <td className="py-3 px-4">
-                  <span className="font-mono text-sm text-primary font-medium" dir="ltr">{task.id}</span>
+                  <span className="font-mono text-sm text-primary font-medium">{task.id}</span>
                 </td>
                 <td className="py-3 px-4">
                   <p className="text-sm font-medium text-foreground line-clamp-1 max-w-[200px]">{task.title}</p>
@@ -116,21 +95,21 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
                 </td>
                 <td className="py-3 px-4">
                   <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded border ${departmentStyles[task.department]}`}>
-                    {departmentLabels[task.department]}
+                    {task.department}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <span className={`inline-flex px-2.5 py-1 text-xs font-semibold rounded-full ${priorityStyles[task.priority]}`}>
-                    {priorityLabels[task.priority]}
+                    {task.priority}
                   </span>
                 </td>
                 <td className="py-3 px-4">
                   <span className={`inline-flex px-2.5 py-1 text-xs font-semibold rounded-full ${statusStyles[task.status]}`}>
-                    {statusLabels[task.status]}
+                    {task.status}
                   </span>
                 </td>
                 <td className="py-3 px-4">
-                  <span className="text-sm text-muted-foreground font-mono" dir="ltr">{task.dueDate}</span>
+                  <span className="text-sm text-muted-foreground font-mono">{task.dueDate}</span>
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex flex-wrap gap-1 max-w-[120px]">
@@ -147,14 +126,14 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
                   </div>
                 </td>
                 <td className="py-3 px-4 text-center">
-                  <span className="text-sm text-muted-foreground" dir="ltr">{task.attachmentsCount}</span>
+                  <span className="text-sm text-muted-foreground">{task.attachmentsCount}</span>
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex items-center justify-center gap-1">
                     <button
                       onClick={() => onView(task)}
                       className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                      title="عرض"
+                      title="View"
                       aria-label="View task"
                     >
                       <Eye className="h-4 w-4" />
@@ -162,7 +141,7 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
                     <button
                       onClick={() => onEdit(task)}
                       className="p-1.5 rounded-lg text-muted-foreground hover:text-info hover:bg-info/10 transition-colors"
-                      title="تعديل"
+                      title="Edit"
                       aria-label="Edit task"
                     >
                       <Pencil className="h-4 w-4" />
@@ -170,7 +149,7 @@ export function TaskTable({ tasks, sortField, sortDirection, onToggleSort, onVie
                     <button
                       onClick={() => onDelete(task)}
                       className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-                      title="حذف"
+                      title="Delete"
                       aria-label="Delete task"
                     >
                       <Trash2 className="h-4 w-4" />

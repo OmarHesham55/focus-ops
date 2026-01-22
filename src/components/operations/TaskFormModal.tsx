@@ -13,27 +13,6 @@ const statusOptions = ['Backlog', 'In Progress', 'Blocked', 'Done'] as const;
 const priorityOptions = ['Low', 'Medium', 'High', 'Critical'] as const;
 const departmentOptions = ['Warehouse', 'Fleet', 'Procurement', 'Customer Service'] as const;
 
-const statusLabels: Record<string, string> = {
-  'Backlog': 'قيد الانتظار',
-  'In Progress': 'قيد التنفيذ',
-  'Blocked': 'متوقف',
-  'Done': 'مكتمل'
-};
-
-const priorityLabels: Record<string, string> = {
-  'Low': 'منخفض',
-  'Medium': 'متوسط',
-  'High': 'عالي',
-  'Critical': 'حرج'
-};
-
-const departmentLabels: Record<string, string> = {
-  'Warehouse': 'المستودع',
-  'Fleet': 'الأسطول',
-  'Procurement': 'المشتريات',
-  'Customer Service': 'خدمة العملاء'
-};
-
 export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalProps) {
   const [formData, setFormData] = useState({
     title: '',
@@ -79,9 +58,9 @@ export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalPr
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!formData.title.trim()) newErrors.title = 'العنوان مطلوب';
-    if (!formData.assignee.trim()) newErrors.assignee = 'المسؤول مطلوب';
-    if (!formData.dueDate) newErrors.dueDate = 'تاريخ الاستحقاق مطلوب';
+    if (!formData.title.trim()) newErrors.title = 'Title is required';
+    if (!formData.assignee.trim()) newErrors.assignee = 'Assignee is required';
+    if (!formData.dueDate) newErrors.dueDate = 'Due date is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -116,7 +95,7 @@ export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalPr
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 id="modal-title" className="text-lg font-semibold text-foreground">
-            {task ? 'تعديل المهمة' : 'مهمة جديدة'}
+            {task ? 'Edit Task' : 'New Task'}
           </h2>
           <button
             onClick={onClose}
@@ -129,51 +108,51 @@ export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalPr
 
         <form onSubmit={handleSubmit} className="p-4 space-y-4 overflow-y-auto max-h-[calc(90vh-120px)]">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">العنوان *</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Title *</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               className={`w-full h-10 px-3 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring ${errors.title ? 'border-destructive' : 'border-input'}`}
-              placeholder="أدخل عنوان المهمة"
+              placeholder="Enter task title"
             />
             {errors.title && <p className="text-xs text-destructive mt-1">{errors.title}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">الوصف</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               rows={3}
               className="w-full px-3 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-              placeholder="أدخل وصف المهمة"
+              placeholder="Enter task description"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">الأولوية</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">Priority</label>
               <select
                 value={formData.priority}
                 onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as Task['priority'] }))}
                 className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
               >
                 {priorityOptions.map(priority => (
-                  <option key={priority} value={priority}>{priorityLabels[priority]}</option>
+                  <option key={priority} value={priority}>{priority}</option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">الحالة</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">Status</label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as Task['status'] }))}
                 className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
               >
                 {statusOptions.map(status => (
-                  <option key={status} value={status}>{statusLabels[status]}</option>
+                  <option key={status} value={status}>{status}</option>
                 ))}
               </select>
             </div>
@@ -181,52 +160,50 @@ export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalPr
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">المسؤول *</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">Assignee *</label>
               <input
                 type="text"
                 value={formData.assignee}
                 onChange={(e) => setFormData(prev => ({ ...prev, assignee: e.target.value }))}
                 className={`w-full h-10 px-3 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring ${errors.assignee ? 'border-destructive' : 'border-input'}`}
-                placeholder="اسم المسؤول"
+                placeholder="Assignee name"
               />
               {errors.assignee && <p className="text-xs text-destructive mt-1">{errors.assignee}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">القسم</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">Department</label>
               <select
                 value={formData.department}
                 onChange={(e) => setFormData(prev => ({ ...prev, department: e.target.value as Task['department'] }))}
                 className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
               >
                 {departmentOptions.map(dept => (
-                  <option key={dept} value={dept}>{departmentLabels[dept]}</option>
+                  <option key={dept} value={dept}>{dept}</option>
                 ))}
               </select>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">تاريخ الاستحقاق *</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Due Date *</label>
             <input
               type="date"
               value={formData.dueDate}
               onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
               className={`w-full h-10 px-3 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring ${errors.dueDate ? 'border-destructive' : 'border-input'}`}
-              dir="ltr"
             />
             {errors.dueDate && <p className="text-xs text-destructive mt-1">{errors.dueDate}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">الوسوم (مفصولة بفواصل)</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">Tags (comma separated)</label>
             <input
               type="text"
               value={formData.tags}
               onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
               className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="مثال: عاجل, مخزون, تقرير"
-              dir="ltr"
+              placeholder="e.g. urgent, inventory, report"
             />
           </div>
 
@@ -235,14 +212,14 @@ export function TaskFormModal({ isOpen, task, onClose, onSave }: TaskFormModalPr
               type="submit"
               className="flex-1 h-10 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
             >
-              {task ? 'حفظ التغييرات' : 'إنشاء المهمة'}
+              {task ? 'Save Changes' : 'Create Task'}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="flex-1 h-10 rounded-lg border border-input bg-background text-foreground font-medium hover:bg-muted transition-colors"
             >
-              إلغاء
+              Cancel
             </button>
           </div>
         </form>
