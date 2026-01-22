@@ -22,7 +22,7 @@ export function DeleteConfirmModal({ isOpen, task, onClose, onConfirm }: DeleteC
         aria-describedby="delete-modal-description"
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 id="delete-modal-title" className="text-lg font-semibold text-foreground">تأكيد الحذف</h2>
+          <h2 id="delete-modal-title" className="text-lg font-semibold text-foreground">Confirm Delete</h2>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
@@ -39,14 +39,14 @@ export function DeleteConfirmModal({ isOpen, task, onClose, onConfirm }: DeleteC
             </div>
             <div className="flex-1">
               <p id="delete-modal-description" className="text-foreground mb-2">
-                هل أنت متأكد من حذف هذه المهمة؟
+                Are you sure you want to delete this task?
               </p>
               <div className="p-3 rounded-lg bg-muted/50">
-                <p className="font-mono text-sm text-primary mb-1" dir="ltr">{task.id}</p>
+                <p className="font-mono text-sm text-primary mb-1">{task.id}</p>
                 <p className="text-sm font-medium text-foreground">{task.title}</p>
               </div>
               <p className="text-sm text-muted-foreground mt-3">
-                لا يمكن التراجع عن هذا الإجراء. سيتم حذف المهمة وجميع البيانات المرتبطة بها نهائياً.
+                This action cannot be undone. The task and all associated data will be permanently deleted.
               </p>
             </div>
           </div>
@@ -57,13 +57,13 @@ export function DeleteConfirmModal({ isOpen, task, onClose, onConfirm }: DeleteC
             onClick={onConfirm}
             className="flex-1 h-10 rounded-lg bg-destructive text-destructive-foreground font-medium hover:bg-destructive/90 transition-colors"
           >
-            نعم، حذف المهمة
+            Yes, Delete Task
           </button>
           <button
             onClick={onClose}
             className="flex-1 h-10 rounded-lg border border-input bg-background text-foreground font-medium hover:bg-muted transition-colors"
           >
-            إلغاء
+            Cancel
           </button>
         </div>
       </div>

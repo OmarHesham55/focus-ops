@@ -22,31 +22,10 @@ const priorityStyles: Record<string, string> = {
   'Critical': 'bg-destructive/15 text-destructive'
 };
 
-const statusLabels: Record<string, string> = {
-  'Backlog': 'قيد الانتظار',
-  'In Progress': 'قيد التنفيذ',
-  'Blocked': 'متوقف',
-  'Done': 'مكتمل'
-};
-
-const priorityLabels: Record<string, string> = {
-  'Low': 'منخفض',
-  'Medium': 'متوسط',
-  'High': 'عالي',
-  'Critical': 'حرج'
-};
-
-const departmentLabels: Record<string, string> = {
-  'Warehouse': 'المستودع',
-  'Fleet': 'الأسطول',
-  'Procurement': 'المشتريات',
-  'Customer Service': 'خدمة العملاء'
-};
-
 const dummyActivity = [
-  { id: 1, text: 'تم إنشاء المهمة', time: 'قبل 3 أيام', user: 'النظام' },
-  { id: 2, text: 'تم تحديث الأولوية', time: 'قبل يومين', user: 'أحمد محمد' },
-  { id: 3, text: 'تمت إضافة تعليق', time: 'قبل يوم', user: 'سارة أحمد' },
+  { id: 1, text: 'Task created', time: '3 days ago', user: 'System' },
+  { id: 2, text: 'Priority updated', time: '2 days ago', user: 'John Smith' },
+  { id: 3, text: 'Comment added', time: '1 day ago', user: 'Sarah Johnson' },
 ];
 
 export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalProps) {
@@ -63,12 +42,12 @@ export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalPr
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-sm text-primary font-medium" dir="ltr">{task.id}</span>
+            <span className="font-mono text-sm text-primary font-medium">{task.id}</span>
             <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${statusStyles[task.status]}`}>
-              {statusLabels[task.status]}
+              {task.status}
             </span>
             <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${priorityStyles[task.priority]}`}>
-              {priorityLabels[task.priority]}
+              {task.priority}
             </span>
           </div>
           <button
@@ -91,29 +70,29 @@ export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalPr
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
               <User className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-xs text-muted-foreground">المسؤول</p>
+                <p className="text-xs text-muted-foreground">Assignee</p>
                 <p className="text-sm font-medium text-foreground">{task.assignee}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
               <Building2 className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-xs text-muted-foreground">القسم</p>
-                <p className="text-sm font-medium text-foreground">{departmentLabels[task.department]}</p>
+                <p className="text-xs text-muted-foreground">Department</p>
+                <p className="text-sm font-medium text-foreground">{task.department}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
               <Calendar className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-xs text-muted-foreground">تاريخ الاستحقاق</p>
-                <p className="text-sm font-medium text-foreground font-mono" dir="ltr">{task.dueDate}</p>
+                <p className="text-xs text-muted-foreground">Due Date</p>
+                <p className="text-sm font-medium text-foreground font-mono">{task.dueDate}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
               <Paperclip className="h-5 w-5 text-muted-foreground" />
               <div>
-                <p className="text-xs text-muted-foreground">المرفقات</p>
-                <p className="text-sm font-medium text-foreground" dir="ltr">{task.attachmentsCount} ملفات</p>
+                <p className="text-xs text-muted-foreground">Attachments</p>
+                <p className="text-sm font-medium text-foreground">{task.attachmentsCount} files</p>
               </div>
             </div>
           </div>
@@ -122,7 +101,7 @@ export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalPr
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <Tag className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-foreground">الوسوم</span>
+                <span className="text-sm font-medium text-foreground">Tags</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {task.tags.map(tag => (
@@ -137,7 +116,7 @@ export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalPr
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Clock className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">سجل النشاط</span>
+              <span className="text-sm font-medium text-foreground">Activity Log</span>
             </div>
             <div className="space-y-3">
               {dummyActivity.map(activity => (
@@ -161,13 +140,13 @@ export function ViewTaskModal({ isOpen, task, onClose, onEdit }: ViewTaskModalPr
             className="flex-1 h-10 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
           >
             <Pencil className="h-4 w-4" />
-            تعديل
+            Edit
           </button>
           <button
             onClick={onClose}
             className="flex-1 h-10 rounded-lg border border-input bg-background text-foreground font-medium hover:bg-muted transition-colors"
           >
-            إغلاق
+            Close
           </button>
         </div>
       </div>

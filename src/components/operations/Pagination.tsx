@@ -41,7 +41,7 @@ export function Pagination({ currentPage, totalPages, pageSize, totalItems, onPa
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 bg-card border-t border-border">
       <div className="flex items-center gap-3 text-sm text-muted-foreground">
-        <span>عرض</span>
+        <span>Show</span>
         <select
           value={pageSize}
           onChange={(e) => onPageSizeChange(Number(e.target.value))}
@@ -51,7 +51,7 @@ export function Pagination({ currentPage, totalPages, pageSize, totalItems, onPa
           <option value={20}>20</option>
           <option value={50}>50</option>
         </select>
-        <span>من {totalItems}</span>
+        <span>of {totalItems}</span>
       </div>
 
       <div className="flex items-center gap-1">
@@ -61,7 +61,7 @@ export function Pagination({ currentPage, totalPages, pageSize, totalItems, onPa
           className="p-2 rounded-lg border border-input bg-background text-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Previous page"
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronLeft className="h-4 w-4" />
         </button>
 
         {getPageNumbers().map((page, index) => (
@@ -76,7 +76,6 @@ export function Pagination({ currentPage, totalPages, pageSize, totalItems, onPa
                     ? 'bg-primary text-primary-foreground'
                     : 'border border-input bg-background text-foreground hover:bg-accent'
                 }`}
-                dir="ltr"
               >
                 {page}
               </button>
@@ -90,7 +89,7 @@ export function Pagination({ currentPage, totalPages, pageSize, totalItems, onPa
           className="p-2 rounded-lg border border-input bg-background text-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Next page"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4" />
         </button>
       </div>
     </div>
